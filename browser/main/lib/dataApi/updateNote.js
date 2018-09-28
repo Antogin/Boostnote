@@ -3,6 +3,8 @@ const _ = require('lodash')
 const path = require('path')
 const CSON = require('@rokt33r/season')
 const { findStorage } = require('browser/lib/findStorage')
+const exec = require('child_process').exec
+const process = require('process')
 
 function validateInput (input) {
   const validatedInput = {}
@@ -71,6 +73,7 @@ function validateInput (input) {
 }
 
 function updateNote (storageKey, noteKey, input) {
+
   let targetStorage
   try {
     if (input == null) throw new Error('No input found.')
@@ -125,6 +128,13 @@ function updateNote (storageKey, noteKey, input) {
       })
 
       CSON.writeFileSync(path.join(storage.path, 'notes', noteKey + '.cson'), _.omit(noteData, ['key', 'storage']))
+      process.chdir(path.resolve(storage.path))
+
+      const now = Date.now()
+      exec(`git add . && git commit -m '${now}' && git push -u origin master && git status`, (data, az) => {
+        console.log('GA =>', data)
+        console.log('GA =>', az)
+      })
 
       return noteData
     })
