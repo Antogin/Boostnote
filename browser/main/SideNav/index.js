@@ -18,7 +18,6 @@ import TagButton from './TagButton'
 import {SortableContainer} from 'react-sortable-hoc'
 import i18n from 'browser/lib/i18n'
 import context from 'browser/lib/context'
-import ConnectGitModal from 'browser/main/modals/ConnectGitModal'
 
 class SideNav extends React.Component {
   // TODO: should not use electron stuff v0.7
@@ -259,10 +258,6 @@ class SideNav extends React.Component {
     ])
   }
 
-  openGit () {
-    openModal(ConnectGitModal)
-  }
-
   render () {
     const { data, location, config, dispatch } = this.props
 
@@ -294,7 +289,6 @@ class SideNav extends React.Component {
           <div styleName='switch-buttons'>
             <ListButton onClick={this.handleSwitchFoldersButtonClick.bind(this)} isTagActive={isTagActive} />
             <TagButton onClick={this.handleSwitchTagsButtonClick.bind(this)} isTagActive={isTagActive} />
-            <TagButton onClick={this.openGit.bind(this)} isTagActive={false} />
           </div>
           <div>
             <PreferenceButton onClick={this.handleMenuButtonClick} />
