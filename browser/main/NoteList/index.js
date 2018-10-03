@@ -592,6 +592,7 @@ class NoteList extends React.Component {
     const selectedNotes = findNotesByKeys(notes, selectedNoteKeys)
     const firstNote = selectedNotes[0]
     const { confirmDeletion } = this.props.config.ui
+    const nextNote = notes.filter((note) => note.key !== selectedNoteKeys)[0]
 
     if (firstNote.isTrashed) {
       if (!confirmDeleteNote(confirmDeletion, true)) return
@@ -635,6 +636,9 @@ class NoteList extends React.Component {
         })
         AwsMobileAnalyticsConfig.recordDynamicCustomEvent('EDIT_NOTE')
         console.log('Notes went to trash')
+        if (nextNote) {
+          this.selectNextNote()
+        }
       })
       .catch((err) => {
         console.error('Notes could not go to trash: ' + err)
